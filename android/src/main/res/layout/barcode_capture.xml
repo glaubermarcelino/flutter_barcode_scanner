@@ -7,19 +7,19 @@
     android:background="@android:color/black"
     android:keepScreenOn="true">
 
-    <com.amolg.flutterbarcodescanner.camera.CameraSourcePreview
+    <com.gts.flutterbarscanneralternative.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_above="@+id/layoutBottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.amolg.flutterbarcodescanner.camera.GraphicOverlay
+        <com.gts.flutterbarscanneralternative.camera.GraphicOverlay
             android:id="@+id/graphicOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#44000000" />
 
-    </com.amolg.flutterbarcodescanner.camera.CameraSourcePreview>
+    </com.gts.flutterbarscanneralternative.camera.CameraSourcePreview>
 
     <RelativeLayout
         android:id="@+id/layoutBottom"

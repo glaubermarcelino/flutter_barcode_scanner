@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.amolg.flutterbarcodescanner;
+package com.gts.flutterbarscanneralternative;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -46,9 +46,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.amolg.flutterbarcodescanner.camera.CameraSource;
-import com.amolg.flutterbarcodescanner.camera.CameraSourcePreview;
-import com.amolg.flutterbarcodescanner.camera.GraphicOverlay;
+import com.gts.flutterbarscanneralternative.camera.CameraSource;
+import com.gts.flutterbarscanneralternative.camera.CameraSourcePreview;
+import com.gts.flutterbarscanneralternative.camera.GraphicOverlay;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.CommonStatusCodes;

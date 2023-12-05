@@ -1,4 +1,4 @@
-group 'com.amolg.flutterbarcodescanner'
+group 'com.gts.flutterbarscanneralternative'
 version '1.0-SNAPSHOT'
 
 buildscript {

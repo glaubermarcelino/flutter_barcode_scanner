@@ -1,4 +1,4 @@
-package com.amolg.flutterbarcodescannerexample;
+package com.gts.flutterbarscanneralternativeexample;
 
 import io.flutter.embedding.android.FlutterActivity;
 
