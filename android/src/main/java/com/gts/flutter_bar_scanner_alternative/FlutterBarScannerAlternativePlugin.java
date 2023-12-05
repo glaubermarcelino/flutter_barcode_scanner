@@ -34,16 +34,16 @@ import io.flutter.embedding.engine.plugins.lifecycle.FlutterLifecycleAdapter;
 
 
 /**
- * FlutterBarcodeScannerPlugin
+ * FlutterBarScannerAlternativePlugin
  */
-public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityResultListener, StreamHandler, FlutterPlugin, ActivityAware {
+public class FlutterBarScannerAlternativePlugin implements MethodCallHandler, ActivityResultListener, StreamHandler, FlutterPlugin, ActivityAware {
     private static final String CHANNEL = "flutter_bar_scanner_alternative";
 
     private static FlutterActivity activity;
     private static Result pendingResult;
     private Map<String, Object> arguments;
 
-    private static final String TAG = FlutterBarcodeScannerPlugin.class.getSimpleName();
+    private static final String TAG = FlutterBarScannerAlternativePlugin.class.getSimpleName();
     private static final int RC_BARCODE_CAPTURE = 9001;
     public static String lineColor = "";
     public static boolean isShowFlashIcon = false;
@@ -65,11 +65,11 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     private Lifecycle lifecycle;
     private LifeCycleObserver observer;
 
-    public FlutterBarcodeScannerPlugin() {
+    public FlutterBarScannerAlternativePlugin() {
     }
 
-    private FlutterBarcodeScannerPlugin(FlutterActivity activity, final PluginRegistry.Registrar registrar) {
-        FlutterBarcodeScannerPlugin.activity = activity;
+    private FlutterBarScannerAlternativePlugin(FlutterActivity activity, final PluginRegistry.Registrar registrar) {
+        FlutterBarScannerAlternativePlugin.activity = activity;
     }
 
     /**
@@ -84,7 +84,7 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
         if (registrar.context() != null) {
             applicationContext = (Application) (registrar.context().getApplicationContext());
         }
-        FlutterBarcodeScannerPlugin instance = new FlutterBarcodeScannerPlugin((FlutterActivity) registrar.activity(), registrar);
+        FlutterBarScannerPlugin instance = new FlutterBarScannerPlugin((FlutterActivity) registrar.activity(), registrar);
         instance.createPluginSetup(registrar.messenger(), applicationContext, activity, registrar, null);
     }
 

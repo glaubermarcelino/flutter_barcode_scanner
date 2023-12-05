@@ -123,7 +123,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
         imgViewBarcodeCaptureUseFlash = findViewById(R.id.imgViewBarcodeCaptureUseFlash);
         imgViewBarcodeCaptureUseFlash.setOnClickListener(this);
-        imgViewBarcodeCaptureUseFlash.setVisibility(FlutterBarcodeScannerPlugin.isShowFlashIcon ? View.VISIBLE : View.GONE);
+        imgViewBarcodeCaptureUseFlash.setVisibility(FlutterBarScannerAlternative.isShowFlashIcon ? View.VISIBLE : View.GONE);
 
         imgViewSwitchCamera = findViewById(R.id.imgViewSwitchCamera);
         imgViewSwitchCamera.setOnClickListener(this);
@@ -415,7 +415,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
             Barcode barcode = new Barcode();
             barcode.rawValue = "-1";
             barcode.displayValue = "-1";
-            FlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode);
+            FlutterBarScannerAlternative.onBarcodeScanReceiver(barcode);
             finish();
         } else if (i == R.id.imgViewSwitchCamera) {
             int currentFacing = mCameraSource.getCameraFacing();
@@ -523,8 +523,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     @Override
     public void onBarcodeDetected(Barcode barcode) {
         if (null != barcode) {
-            if (FlutterBarcodeScannerPlugin.isContinuousScan) {
-                FlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode);
+            if (FlutterBarScannerAlternativePlugin.isContinuousScan) {
+                FlutterBarScannerAlternative.onBarcodeScanReceiver(barcode);
             } else {
                 Intent data = new Intent();
                 data.putExtra(BarcodeObject, barcode);

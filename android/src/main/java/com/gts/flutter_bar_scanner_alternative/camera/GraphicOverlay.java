@@ -27,7 +27,7 @@ import android.view.View;
 
 
 import com.gts.flutterbarscanneralternative.BarcodeCaptureActivity;
-import com.gts.flutterbarscanneralternative.FlutterBarcodeScannerPlugin;
+import com.gts.flutterbarscanneralternative.FlutterBarScannerAlternativePlugin;
 import com.gts.flutterbarscanneralternative.constants.AppConstants;
 import com.gts.flutterbarscanneralternative.utils.AppUtil;
 
@@ -93,7 +93,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
         rectHeight = BarcodeCaptureActivity.SCAN_MODE == BarcodeCaptureActivity.SCAN_MODE_ENUM.QR.ordinal()
                 ? AppConstants.BARCODE_RECT_HEIGHT : (int) (AppConstants.BARCODE_RECT_HEIGHT / 1.5);
 
-        lineColor = Color.parseColor(FlutterBarcodeScannerPlugin.lineColor);
+        lineColor = Color.parseColor(FlutterBarScannerAlternativePlugin.lineColor);
 
         lineWidth = AppConstants.BARCODE_LINE_WIDTH;
         frames = AppConstants.BARCODE_FRAMES;
