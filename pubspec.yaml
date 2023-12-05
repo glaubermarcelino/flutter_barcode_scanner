@@ -25,4 +25,4 @@ flutter:
         package: com.gts.flutterbarscanneralternative
         pluginClass: FlutterBarScannerAlternativePlugin
       ios:
-        pluginClass: FlutterBarScannerAlternativePlugin
+        pluginClass: SwiftFlutterBarcodeScannerPlugin

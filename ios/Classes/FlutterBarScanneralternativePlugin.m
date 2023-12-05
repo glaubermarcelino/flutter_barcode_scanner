@@ -3,6 +3,6 @@
 
 @implementation FlutterBarScannerAlternativePlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [FlutterBarScannerAlternativePlugin registerWithRegistrar:registrar];
+  [SwiftFlutterBarcodeScannerPlugin registerWithRegistrar:registrar];
 }
 @end
