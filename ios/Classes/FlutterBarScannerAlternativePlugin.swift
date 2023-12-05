@@ -12,7 +12,7 @@ enum ScanMode:Int{
     }
 }
 
-public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarcodeDelegate,FlutterStreamHandler {
+public class FlutterBarScannerAlternativePlugin: NSObject, FlutterPlugin, ScanBarcodeDelegate,FlutterStreamHandler {
     
     public static var viewController = UIViewController()
     public static var lineColor:String=""
@@ -25,10 +25,10 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         viewController = (UIApplication.shared.delegate?.window??.rootViewController)!
-        let channel = FlutterMethodChannel(name: "flutter_barcode_scanner", binaryMessenger: registrar.messenger())
-        let instance = SwiftFlutterBarcodeScannerPlugin()
+        let channel = FlutterMethodChannel(name: "flutter_bar_scanner_alternative", binaryMessenger: registrar.messenger())
+        let instance = FlutterBarcodeScannerPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
-        let eventChannel=FlutterEventChannel(name: "flutter_barcode_scanner_receiver", binaryMessenger: registrar.messenger())
+        let eventChannel=FlutterEventChannel(name: "flutter_bar_scanner_alternative_receiver", binaryMessenger: registrar.messenger())
         eventChannel.setStreamHandler(instance)
     }
     
@@ -42,12 +42,12 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
     }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        SwiftFlutterBarcodeScannerPlugin.barcodeStream = events
+        FlutterBarcodeScannerPlugin.barcodeStream = events
         return nil
     }
     
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        SwiftFlutterBarcodeScannerPlugin.barcodeStream=nil
+        FlutterBarcodeScannerPlugin.barcodeStream=nil
         return nil
     }
     
@@ -58,34 +58,34 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args:Dictionary<String, AnyObject> = call.arguments as! Dictionary<String, AnyObject>;
         if let colorCode = args["lineColor"] as? String{
-            SwiftFlutterBarcodeScannerPlugin.lineColor = colorCode
+            FlutterBarcodeScannerPlugin.lineColor = colorCode
         }else {
-            SwiftFlutterBarcodeScannerPlugin.lineColor = "#ff6666"
+            FlutterBarcodeScannerPlugin.lineColor = "#ff6666"
         }
         if let buttonText = args["cancelButtonText"] as? String{
-            SwiftFlutterBarcodeScannerPlugin.cancelButtonText = buttonText
+            FlutterBarcodeScannerPlugin.cancelButtonText = buttonText
         }else {
-            SwiftFlutterBarcodeScannerPlugin.cancelButtonText = "Cancel"
+            FlutterBarcodeScannerPlugin.cancelButtonText = "Cancel"
         }
         if let flashStatus = args["isShowFlashIcon"] as? Bool{
-            SwiftFlutterBarcodeScannerPlugin.isShowFlashIcon = flashStatus
+            FlutterBarcodeScannerPlugin.isShowFlashIcon = flashStatus
         }else {
-            SwiftFlutterBarcodeScannerPlugin.isShowFlashIcon = false
+            FlutterBarcodeScannerPlugin.isShowFlashIcon = false
         }
         if let isContinuousScan = args["isContinuousScan"] as? Bool{
-            SwiftFlutterBarcodeScannerPlugin.isContinuousScan = isContinuousScan
+            FlutterBarcodeScannerPlugin.isContinuousScan = isContinuousScan
         }else {
-            SwiftFlutterBarcodeScannerPlugin.isContinuousScan = false
+            FlutterBarcodeScannerPlugin.isContinuousScan = false
         }
         
         if let scanModeReceived = args["scanMode"] as? Int {
             if scanModeReceived == ScanMode.DEFAULT.index {
-                SwiftFlutterBarcodeScannerPlugin.scanMode = ScanMode.QR.index
+                FlutterBarcodeScannerPlugin.scanMode = ScanMode.QR.index
             }else{
-                SwiftFlutterBarcodeScannerPlugin.scanMode = scanModeReceived
+                FlutterBarcodeScannerPlugin.scanMode = scanModeReceived
             }
         }else{
-            SwiftFlutterBarcodeScannerPlugin.scanMode = ScanMode.QR.index
+            FlutterBarcodeScannerPlugin.scanMode = ScanMode.QR.index
         }
         
         pendingResult=result
@@ -98,7 +98,7 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
         
         if checkCameraAvailability(){
             if checkForCameraPermission() {
-                SwiftFlutterBarcodeScannerPlugin.viewController.present(controller
+                FlutterBarcodeScannerPlugin.viewController.present(controller
                                                                         , animated: true) {
                     
                 }
@@ -106,7 +106,7 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
                 AVCaptureDevice.requestAccess(for: .video) { success in
                     DispatchQueue.main.async {
                         if success {
-                            SwiftFlutterBarcodeScannerPlugin.viewController.present(controller
+                            FlutterBarcodeScannerPlugin.viewController.present(controller
                                                                                     , animated: true) {
                                 
                             }
@@ -119,7 +119,7 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
                             
                             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                             
-                            SwiftFlutterBarcodeScannerPlugin.viewController.present(alert, animated: true)
+                            FlutterBarcodeScannerPlugin.viewController.present(alert, animated: true)
                         }
                     }
                 }}
@@ -137,7 +137,7 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(alertAction)
-        SwiftFlutterBarcodeScannerPlugin.viewController.present(alertController, animated: true, completion: nil)
+        FlutterBarcodeScannerPlugin.viewController.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -195,7 +195,7 @@ class BarcodeScannerViewController: UIViewController {
         flashButton.setTitle("Flash",for:.normal)
         flashButton.translatesAutoresizingMaskIntoConstraints=false
         
-        flashButton.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
+        flashButton.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: FlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
         
         flashButton.addTarget(self, action: #selector(BarcodeScannerViewController.flashButtonClicked), for: .touchUpInside)
         return flashButton
@@ -206,7 +206,7 @@ class BarcodeScannerViewController: UIViewController {
         let button = UIButton()
         
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "ic_switch_camera", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
+        button.setImage(UIImage(named: "ic_switch_camera", in: Bundle(for: FlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
         button.addTarget(self, action: #selector(BarcodeScannerViewController.switchCameraButtonClicked), for: .touchUpInside)
         
         return button
@@ -216,7 +216,7 @@ class BarcodeScannerViewController: UIViewController {
     /// Create and return cancel button
     public lazy var cancelButton: UIButton! = {
         let view = UIButton()
-        view.setTitle(SwiftFlutterBarcodeScannerPlugin.cancelButtonText, for: .normal)
+        view.setTitle(FlutterBarcodeScannerPlugin.cancelButtonText, for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addTarget(self, action: #selector(BarcodeScannerViewController.cancelButtonClicked), for: .touchUpInside)
         return view
@@ -241,10 +241,10 @@ class BarcodeScannerViewController: UIViewController {
     // Init UI components needed
     func initUIComponents(){
         if isOrientationPortrait {
-            screenHeight = (CGFloat)((SwiftFlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (screenSize.width * 0.8) : (screenSize.width * 0.5))
+            screenHeight = (CGFloat)((FlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (screenSize.width * 0.8) : (screenSize.width * 0.5))
             
         } else {
-            screenHeight = (CGFloat)((SwiftFlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (screenSize.height * 0.6) : (screenSize.height * 0.5))
+            screenHeight = (CGFloat)((FlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (screenSize.height * 0.6) : (screenSize.height * 0.5))
         }
         
         
@@ -343,7 +343,7 @@ class BarcodeScannerViewController: UIViewController {
             qrCodeFrameView.layer.insertSublayer(fillLayer, below: videoPreviewLayer!)
             self.view.bringSubviewToFront(bottomView)
             self.view.bringSubviewToFront(flashIcon)
-            if(!SwiftFlutterBarcodeScannerPlugin.isShowFlashIcon){
+            if(!FlutterBarcodeScannerPlugin.isShowFlashIcon){
                 flashIcon.isHidden=true
             }
             qrCodeFrameView.layoutIfNeeded()
@@ -397,11 +397,11 @@ class BarcodeScannerViewController: UIViewController {
     }
     
     private func flashIconOff() {
-        flashIcon.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
+        flashIcon.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: FlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
     }
     
     private func flashIconOn() {
-        flashIcon.setImage(UIImage(named: "ic_flash_on", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
+        flashIcon.setImage(UIImage(named: "ic_flash_on", in: Bundle(for: FlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
     }
     
     private func setFlashStatus(device: AVCaptureDevice, mode: AVCaptureDevice.TorchMode) {
@@ -457,9 +457,9 @@ class BarcodeScannerViewController: UIViewController {
     
     /// Cancel button click event listener
     @IBAction private func cancelButtonClicked() {
-        if SwiftFlutterBarcodeScannerPlugin.isContinuousScan{
+        if FlutterBarcodeScannerPlugin.isContinuousScan{
             self.dismiss(animated: true, completion: {
-                SwiftFlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode: "-1")
+                FlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode: "-1")
             })
         }else{
             if self.delegate != nil {
@@ -521,14 +521,14 @@ class BarcodeScannerViewController: UIViewController {
     /// Draw scan line
     private func drawLine() {
         self.view.addSubview(scanLine)
-        scanLine.backgroundColor = hexStringToUIColor(hex: SwiftFlutterBarcodeScannerPlugin.lineColor)
+        scanLine.backgroundColor = hexStringToUIColor(hex: FlutterBarcodeScannerPlugin.lineColor)
         scanlineRect = CGRect(x: xCor, y: yCor, width:self.isOrientationPortrait ? (screenSize.width*0.8) : (screenSize.height*0.8), height: 2)
         
         scanlineStartY = yCor
         
         var stopY:CGFloat
         
-        if SwiftFlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index {
+        if FlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index {
             let w = self.isOrientationPortrait ? (screenSize.width*0.8) : (screenSize.height*0.6)
             stopY = (yCor + w)
         } else {
@@ -586,8 +586,8 @@ extension BarcodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             //            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             //qrCodeFrameView?.frame = barCodeObject!.bounds
             if metadataObj.stringValue != nil {
-                if(SwiftFlutterBarcodeScannerPlugin.isContinuousScan){
-                    SwiftFlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode: metadataObj.stringValue!)
+                if(FlutterBarcodeScannerPlugin.isContinuousScan){
+                    FlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode: metadataObj.stringValue!)
                 }else{
                     launchApp(decodedURL: metadataObj.stringValue!)
                 }
@@ -615,10 +615,10 @@ extension BarcodeScannerViewController{
             self.screenSize = UIScreen.main.bounds
             
             if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown {
-                self.screenHeight = (CGFloat)((SwiftFlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (self.screenSize.width * 0.8) : (self.screenSize.width * 0.5))
+                self.screenHeight = (CGFloat)((FlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (self.screenSize.width * 0.8) : (self.screenSize.width * 0.5))
                 
             } else {
-                self.screenHeight = (CGFloat)((SwiftFlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (self.screenSize.height * 0.6) : (self.screenSize.height * 0.5))
+                self.screenHeight = (CGFloat)((FlutterBarcodeScannerPlugin.scanMode == ScanMode.QR.index) ? (self.screenSize.height * 0.6) : (self.screenSize.height * 0.5))
             }
             
             
