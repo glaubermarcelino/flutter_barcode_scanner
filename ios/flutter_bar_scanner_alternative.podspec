@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_bar_scanner_alternative'
-  s.version          = '1.0.6'
+  s.version          = '1.0.7'
   s.summary          = 'A new Flutter plugin supports barcode scanning on both Android and iOS.'
   s.description      = <<-DESC
   A new Flutter plugin supports barcode scanning on both Android and iOS soft.
